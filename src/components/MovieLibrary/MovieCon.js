@@ -1,59 +1,54 @@
 import React, {useState, useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import MoviesList from "./MoviesList";
-import Button from "../UI/Button/Button";
-import SearchBox from "../UI/SearchBox/SearchBox";
+import "./MovieCon.module.css";
+import Search from "./MoviesFilter";
+import Movie from "./Movie";
 
-function MovieCon(props) {
-  const [movies, setMovies] = useState([]);
-  const [searchValue,setSearchValue] = useState('');
+const MOVIE_API = "http://www.omdbapi.com/?s=man&apikey=b98571b0";
 
-  const fetchMoviesHandler = async (searchValue) => {
-    const url = `http://www.omdbapi.com/?apikey=b98571b0&s=${searchValue}`;
-
-    const response = await fetch(url);
-    const responseJson = await response.json();
-    console.log(responseJson);
-
-    // if(response.response){
-    // const transformedMovie = responseJson.Search.map(searchValue => {
-    //     return {
-    //         id: searchValue.i,
-    //         title: searchValue.t,
-    //         releaseDate: searchValue.y,
-    //         type: searchValue.type,
-    //     };
-    // });
-    // console.log(transformedMovie.title);
-    // setMovies(transformedMovie);
-    // console.log(setMovies);
-    // console.log("Transformed1");
-    // }
-
-    if(responseJson.Search){
-        setMovies(responseJson.Search);
-        console.log("If statement");
-    }    
-  };
-
-  useEffect(() => {
-    fetchMoviesHandler(searchValue);
-  }, [searchValue]);
-
-  return (
-      
-      <div className="container-fluid movie-app">
-        <div className="row d-flex align-items-center mt-4 mb-4">
-            <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
-           
-        </div>
-        <Button onClick={fetchMoviesHandler}>Search</Button>
-        <div className="row">
-        <MoviesList movies={movies}/>
-        </div>
+function MovieCon() {
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(null);
+  
+    useEffect(() => {
+      fetch(MOVIE_API)
+        .then(res => res.json())
+        .then(jsonres => {
+          setMovies(jsonres.Search);
+        });
+    }, []);
+  
+    const search = searchValue => {
+      setLoading(true);
+      fetch(
+        searchValue !== ""
+          ? `http://www.omdbapi.com/?s=${searchValue}&apikey=b98571b0`
+          : `http://www.omdbapi.com/?s=man&apikey=b98571b0`
+      )
+        .then(res => res.json())
+        .then(jsonres => {
+          setMovies(jsonres.Search);
+          setLoading(false);
+        });
+    };
+    const handleMovies = movies => {
+      return loading ? (
+        <span>Loading...</span>
+      ) : movies !== undefined ? (
+        movies.map((movie, index) => <Movie key={index} movie={movie} />)
+      ) : (
+        <span>There is no movie with such name.</span>
+      );
+    };
+    return (
+      <div className="container">
+        
+        <Search search={search} />
+        <div className="row">{handleMovies(movies)}</div>
       </div>
-  );
-}
+    );
+  };
+  
 
 export default MovieCon;

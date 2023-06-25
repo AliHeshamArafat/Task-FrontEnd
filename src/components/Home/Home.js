@@ -9,6 +9,7 @@ const Home = (props) => {
     <div>
     <Card className={classes.home}>
       <h1>Welcome back!</h1>
+      <h7>Search for movies by name</h7>
       <MovieCon />
     </Card>
     </div>

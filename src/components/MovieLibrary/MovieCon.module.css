@@ -1,34 +1,29 @@
-body {
-    background-color: #141414;
-    color:white;
-}
-.movie-app > .row {
-    overflow-x:auto;
-    flex-wrap: nowrap;
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,600i,700&display=swap");
+
+body{
+  font-family: "Source Sans Pro", sans-serif;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style-type: none;
+  outline: none;
+  background-image: url("/bg-image.jpg");
 }
 
-.image-container{
-    position: relative;
-    transition: transform 0.2s;
+.container{
+  width: 100%;
+  margin: 1em auto;
+  background-color: darkslategray;
 }
 
-.image-container:hover{
-    cursor: pointer;
-    transform: scale(1.1);
+.grid{
+  display: grid;
+  margin-left: .5px;
+  grid-template-columns: repeat(4,1fr);
+  grid-gap: 0.2em;
+  justify-content: center;
 }
 
-image-container:hover .overlay {
-    opacity: 1;
-}
-
-.overlay {
-    position: absolute;
-    background: black;
-    width: 100%;
-    transition: 0.5s ease;
-    opacity: 0;
-    bottom: 0;
-    font-size: 20px;
-    padding: 20px;
-    text-align: center;
+h2{
+  background-color: antiquewhite;
 }

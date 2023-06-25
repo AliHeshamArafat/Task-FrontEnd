@@ -1,5 +1,5 @@
 .main-header {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -9,6 +9,7 @@
   align-items: center;
   background: #741188;
   padding: 0 2rem;
+  opacity: 100%;
 }
 
 .main-header h1 {
